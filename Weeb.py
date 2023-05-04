@@ -1,10 +1,10 @@
 from script import *
 import time
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import Select
-
 
 # def get_question_id_by_target_name(target_name):
 #     logger.debug(f'try to get question id by {target_name}')
@@ -47,8 +47,11 @@ time.sleep(2)
 driver.switch_to.default_content()
 Captcha_inner_frame = driver.find_element(By.XPATH,"/html/body/div[8]/div[4]/iframe")
 driver.switch_to.frame(Captcha_inner_frame)
-#中文
 AI_type = driver.find_element(By.XPATH,"//*[@id='"'rc-imageselect'"']/div[2]/div[1]/div[1]/div/strong").text
-
+img_width = driver.find_element(By.CLASS_NAME,"rc-image-tile-33").get_attribute("naturalWidth")
+print(img_width)
+img_element_url = driver.find_element(By.CLASS_NAME,"rc-image-tile-33").get_attribute("src")
+with open("test.jpeg","wb") as f:
+    f.write(requests.get(img_element_url).content)
 time.sleep(6)
 driver.close() 
